@@ -4,13 +4,20 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"os"
+
+	"github.com/joho/godotenv"
 
 	_ "github.com/lib/pq"
 )
 
 func InitDB() (*sql.DB, error) {
-	//dbURL := os.Getenv("DATABASE_URL")
-	dbURL := "postgresql://neondb_owner:npg_Pgnv7GWyeKs9@ep-sparkling-cake-a1pd5691-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Println("No .env file found")
+	}
+	dbURL := os.Getenv("DATABASE_URL")
+	//dbURL := "postgresql://neondb_owner:npg_Pgnv7GWyeKs9@ep-sparkling-cake-a1pd5691-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
 	if dbURL == "" {
 		return nil, fmt.Errorf("DATABASE_URL environment variable not set")
 	}
